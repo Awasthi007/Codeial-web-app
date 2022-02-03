@@ -1,5 +1,7 @@
 module.exports.home = function(request, response){
-    return response.end('<h1>express is running and up for codeil</h1>')
+    return response.render('home', {
+        title: "home"
+    });
 }
 
 // module.exports.actionName = function(req,res){};  Format
