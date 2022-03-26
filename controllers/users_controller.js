@@ -5,12 +5,15 @@ const User = require('../models/user');
 module.exports.profile = function(request, response)
 {
     //return response.end('<h1> user profile </h1>');
-    return response.render('users', {
+    return response.render('profile', {
         title : "shashank"
     })
 }
 
 module.exports.login = function(request, response){
+    if(request.isAuthenticated()){
+        return response.redirect('users/profile');
+    }
     return response.render('user_login',{
             title: "user login"
     });
@@ -18,6 +21,9 @@ module.exports.login = function(request, response){
 
 
 module.exports.signup = function(request, response){
+    if(request.isAuthenticated()){
+        return response.redirect('users/profile');
+    }
     return response.render('user_signup',{
             title: "user signup"
     });
@@ -54,4 +60,10 @@ module.exports.create = function(request, response){
 // get the login credentials and create sesion
 module.exports.createSession = function(request, response){
     //todo later
+    return response.redirect('/');
+}
+
+module.exports.destroySession = function(request, response){
+    request.logout();
+    return response.redirect('/');
 }
