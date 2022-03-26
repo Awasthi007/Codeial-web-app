@@ -4,7 +4,8 @@ const homeController = require('../controllers/home_controller');
 const authenticator = require('../controllers/authenticator');
 
 router.get('/' , homeController.home);
-router.use('/users', require('./users.js'));
+router.use('/users', require('./users'));
+router.use('/posts', require('./posts'));
 //router.use('/authenticator', require('./authenticator.js'));
 
 

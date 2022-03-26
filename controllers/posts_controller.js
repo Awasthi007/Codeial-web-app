@@ -1,3 +1,15 @@
-module.exports.posts = function(request, response){
-    return response.end("<h1>here is post controller</h1>");
+const Post = require('../models/post')
+
+module.exports.create = function(request, response)
+{
+    Post.create({
+        content: request.body.content,
+        user: request.user._id
+    }, function(error, post){
+        if(error){
+            console.log('error in creating a post');
+            return;
+        }
+        return response.redirect('back');
+    });
 }
