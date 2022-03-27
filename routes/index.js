@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const homeController = require('../controllers/home_controller');
-const authenticator = require('../controllers/authenticator');
+//const authenticator = require('../controllers/authenticator');
 
 router.get('/' , homeController.home);
 router.use('/users', require('./users'));
