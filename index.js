@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8000;
+const port = 3000;
 
 const cookieParcer = require('cookie-parser');  // used for writing and reading into the cookies
 
@@ -13,6 +13,8 @@ const passportLocal = require('./config/passport-local-strategy');
 
 const MongoStore = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
+const flash = require('connect-flash');
+const custoMware = require('./config/middleware');
 
 app.use(sassMiddleware({
     src: './assets/scss',
@@ -66,6 +68,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(custoMware.setFlash);
 
 // use express router
 app.use('/', require('./routes'));

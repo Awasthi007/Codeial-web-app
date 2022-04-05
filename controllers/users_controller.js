@@ -82,10 +82,12 @@ module.exports.create = function(request, response){
 // get the login credentials and create sesion
 module.exports.createSession = function(request, response){
     //todo later
+    request.flash('success', 'Logged in Successfully.!')
     return response.redirect('/');
 }
 
 module.exports.destroySession = function(request, response){
     request.logout();
+    request.flash('success', 'You have logged out!');
     return response.redirect('/');
 }
