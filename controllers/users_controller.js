@@ -5,14 +5,36 @@ const User = require('../models/user');
 module.exports.profile = function(request, response)
 {
     //return response.end('<h1> user profile </h1>');
-    return response.render('profile', {
-        title : "shashank"
-    })
+    User.findById(request.params.id, function(error, user){
+        if(error){
+            console.log(error);
+            return;
+        }
+        return response.render('profile', {
+            title : "User profile",
+            profile_user: user
+        });
+    });
+    
+}
+
+module.exports.update = function(request, response){
+    if(request.user.id == request.params.id){
+        User.findOneAndUpdate(request.params.id, request.body, function(error, user){
+            return response.redirect('back');
+        })
+    }else{
+        return response.status(401).send('Unauthorized');
+    }
 }
 
 module.exports.login = function(request, response){
     if(request.isAuthenticated()){
-        return response.redirect('users/profile');
+        
+        const h = (request.user.id).trim();
+        console.log('//////////////////////////////////////////////////////////////');
+        console.log(h);
+        return response.redirect("/users/profile/<%= h %>");
     }
     return response.render('user_login',{
             title: "user login"
@@ -22,7 +44,7 @@ module.exports.login = function(request, response){
 
 module.exports.signup = function(request, response){
     if(request.isAuthenticated()){
-        return response.redirect('users/profile');
+        return response.redirect('/users/profile/:id');
     }
     return response.render('user_signup',{
             title: "user signup"

@@ -3,7 +3,9 @@
     <ul>
         <% if(locals.user){%>
 
-                <li><%= user.name %></li>
+                <li>
+                    <a href="/users/profile/<%= user.id %>"><%= user.name %></a>
+                </li>
                 <li>
                     <a href="/users/sign-out">sign-out</a>
                 </li>
@@ -13,7 +15,7 @@
                     <a href="/users/login">sign-in</a>
                 </li>
                 <li>
-                    <a href="/users/sign-up">sign-up</a>
+                    <a href="/users/signup">sign-up</a>
                 </li>
             <% } %>
     </ul>
