@@ -21,6 +21,7 @@ module.exports.profile = function(request, response)
 module.exports.update = function(request, response){
     if(request.user.id == request.params.id){
         User.findOneAndUpdate(request.params.id, request.body, function(error, user){
+            request.flash('success', 'Name and email updated successfully');
             return response.redirect('back');
         })
     }else{
@@ -46,6 +47,7 @@ module.exports.signup = function(request, response){
     if(request.isAuthenticated()){
         return response.redirect('/users/profile/:id');
     }
+    
     return response.render('user_signup',{
             title: "user signup"
     });
@@ -88,6 +90,6 @@ module.exports.createSession = function(request, response){
 
 module.exports.destroySession = function(request, response){
     request.logout();
-    request.flash('success', 'You have logged out!');
+    request.flash('warning', 'You have logged out!');
     return response.redirect('/');
 }
