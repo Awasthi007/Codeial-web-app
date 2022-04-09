@@ -31,7 +31,8 @@ app.use(cookieParcer());
 
 
 app.use(express.static('./assets'));  /// to access ourr folder where we have put our css images and js files
-
+// make the uploads path avail to browser
+app.use('/uploads/', express.static(__dirname + '/uploads'));
 app.use(expressLayouts);  // to us the layouts
 // extract style and scripts from sub pages into the layout
 app.set('layout extractStyles', true);

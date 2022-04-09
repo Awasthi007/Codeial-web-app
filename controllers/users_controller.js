@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 
 
@@ -18,13 +20,49 @@ module.exports.profile = function(request, response)
     
 }
 
-module.exports.update = function(request, response){
+// module.exports.update = function(request, response){
+//     if(request.user.id == request.params.id){
+//         User.findOneAndUpdate(request.params.id, request.body, function(error, user){
+//             request.flash('success', 'Name and email updated successfully');
+//             return response.redirect('back');
+//         })
+//     }else{
+//         return response.status(401).send('Unauthorized');
+//     }
+// }
+
+// converting to async
+
+module.exports.update = async function(request, response){
     if(request.user.id == request.params.id){
-        User.findOneAndUpdate(request.params.id, request.body, function(error, user){
-            request.flash('success', 'Name and email updated successfully');
+        try{
+            let user = await User.findById(request.params.id);
+            User.uploadedAvatar(request, response, function(error){
+                    if(error){
+                        console.log('********multererror', error);
+                    }
+                    user.name = request.body.name;
+                    user.email = request.body.email;
+
+                    if(request.file){
+
+                        if(user.avatar){
+                            fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                        }
+
+                        // this is saving the path of the uploaded file into the avatar field in the user
+                        user.avatar = User.avatarPath + '/' + request.file.filename;
+                    }
+                    user.save();
+                    console.log(request.file);
+                    return response.redirect('back');
+            });
+        }catch(error){
+            request.flash('error', error);
             return response.redirect('back');
-        })
+        }
     }else{
+        request.flash('error', 'Unauthorized');
         return response.status(401).send('Unauthorized');
     }
 }
