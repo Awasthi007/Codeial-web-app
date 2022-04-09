@@ -20,7 +20,7 @@ module.exports.create = function(request, response)
                 }
                 post.comments.push(comment);
                 post.save();
-
+                request.flash('warning', 'Comment added');
                 response.redirect('/');
             });
         }

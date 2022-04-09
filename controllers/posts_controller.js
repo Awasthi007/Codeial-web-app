@@ -20,10 +20,21 @@ const Comment = require('../models/comment');
 module.exports.create = async function(request, response)
 {
      try{
-        await Post.create({
+        let post = await Post.create({
             content: request.body.content,
             user: request.user._id
         });
+
+        if(request.xhr){
+            return response.status(200).json({
+                data: {
+                    post: post
+                },
+                message: 'post created!'
+            });
+        }
+
+
         request.flash('success', 'Post created succesfully');
         return response.redirect('back');
      }catch(error){
@@ -65,6 +76,17 @@ module.exports.destroy = async function(request, response){
         if(post.user == request.user.id){
             post.remove(); 
             await Comment.deleteMany({post: request.params.id});
+            
+            if(request.xhr){
+                return response.status(200).json({
+                    data: {
+                        post_id: request.params.id
+                    },
+                    message: 'post deleted'
+                })
+            }
+
+            
             request.flash('warning', 'Post and associated comments deleted successfully');
             return response.redirect('back');
         }
