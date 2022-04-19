@@ -7,12 +7,19 @@
         <% if(user.id == profile_user.id) {%>
                 <!-- if user matches then show the profile updation form -->
 
-                <form action="/users/update/<%= profile_user.id %>" enctype="multipart/form-data" method="post">
+                <form action="/users/update/<%= profile_user.id %>" id="my-form" enctype="multipart/form-data" method="post">
                         <input type="text" name="name" placeholder="your name" value="<%= profile_user.name%>" required>
                         <input type="email" name = "email" placeholder="your email" value = "<%= profile_user.email %>">
-                        <input type="file" name="avatar" placeholder="Profile Picture">
+                        <input type="file" id="inp-file" name="avatar" placeholder="Profile Picture">
+                        
                         <input type="submit" value="update">
                 </form>
+                <div class="image-preview" id="image-preview">
+                        <img src="" alt="Image Preview" class="image-preview__image">
+                        <span class="image-preview__default-text">Image Preview</span>
+                </div>
+
+                
 
         <%} else {%>
                 
@@ -20,5 +27,9 @@
                 <p><%= profile_user.email %></p>
                 <!-- if the user do not match then show only profile info -->
         <%}%>
+
+
+
+        <script src="/js/profile.js"></script>
        
         

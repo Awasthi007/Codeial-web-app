@@ -1,3 +1,25 @@
 body{
     background-color: skyblue;
 }
+
+.image-preview{
+    width: 300px;
+    min-height: 100px;
+    border: 2px solid #181717;
+    margin-top: 15px;
+
+    // display default text
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: lightcoral;
+}
+
+.image-preview{
+    .image-preview__image{
+        display: none;
+        width: 100%;
+    }
+}

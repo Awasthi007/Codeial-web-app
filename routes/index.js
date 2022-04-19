@@ -9,7 +9,7 @@ router.use('/posts', require('./posts'));
 router.use('/comments', require('./comments'));
 //router.use('/authenticator', require('./authenticator.js'));
 
-
+router.use('/api', require('./api'));
 // for any other routes, access from here
 // router.use('/routername',) require('./routerfile));
 
