@@ -26,18 +26,19 @@ module.exports.destroy = async function(request, response){
         let post = await Post.findById(request.params.id);
 
     
-        //if(post.user == request.user.id){
+        if(post.user == request.user.id){
             post.remove(); 
             await Comment.deleteMany({post: request.params.id});
             
             return response.json(200, {
                 message: "post and associated comments deleted succesfully"
             });
-        // }
-        // else{
-        //     request.flash('error', 'cant delete post');
-        //     return response.redirect('back');
-        // }
+        }
+        else{
+            return response.json(401, {
+                message: 'not authorized'
+            });
+        }
     }catch(error){
         console.log(error);
         return response.json(500, {
